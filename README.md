@@ -1,9 +1,7 @@
-# Remove-back v2 🚀
+# Remove-back 🚀
 
 > **Next-Generation In-Browser AI Background Remover & Creative Studio**  
-> Inspired by and reverse-engineered from **remove.bg** — rebuilt to run 100% locally and free in your browser with zero cloud server costs, no rate limits, and total data privacy!
-
----
+> built to run 100% locally and free in your browser with zero cloud server costs, no rate limits, and total data privacy!
 
 ## ✨ Features & Capabilities
 
@@ -49,77 +47,11 @@
 
 ---
 
-## 🚀 Quick Start Guide
-
-### Option 1: Development Server (Vite)
-Double-click `start-remove-back.bat` or run:
-```bash
-npm install
-npm run dev
-```
-Opens automatically at `http://localhost:5173`.
-
-### Option 2: Production Build & Preview
-Double-click `start-production.bat` or run:
-```bash
-npm run build
-npm run preview
-```
-Opens automatically at `http://localhost:4173`.
-
-### Option 3: Standalone Zero-Dependency Server
-Double-click `start-standalone.bat` or run:
-```bash
-python server.py
-```
-Serves the pre-compiled `dist/` directory on `http://localhost:8080` with Cross-Origin Isolation headers (`COOP`/`COEP`) enabled for maximum WebAssembly SIMD and WebGPU performance.
-
----
-
-## 📁 Project Structure
-
-```
-magic_bg_v2/
-├── dist/                     # Optimized production bundle (standalone static assets)
-│   ├── assets/               # Compiled JS, CSS, WASM, and ONNX runtime bundles
-│   ├── backgrounds/          # 6 High-resolution scene backdrops
-│   ├── samples/              # 4 Built-in test photos (Person, Product, Pet, Car)
-│   ├── coi-serviceworker.js  # Cross-Origin Isolation worker for WASM threads
-│   └── index.html            # Compiled production entry point
-├── public/                   # Public static assets
-│   ├── backgrounds/          # Photographic backdrop presets (Studio, Office, Nature, etc.)
-│   ├── samples/              # Sample images for instant one-click testing
-│   ├── coi-serviceworker.js  # Service worker ensuring SharedArrayBuffer availability
-│   ├── logo.svg              # Brand logo wordmark
-│   ├── logo-icon.svg         # Favicon and brand emblem
-│   └── custom-cursor.svg     # Modern ergonomic vector cursor
-├── src/
-│   ├── main.js               # Application logic, AI pipeline, undo/redo, canvas studio
-│   └── style.css             # Minimalist design system, CSS variables, dark/light themes
-├── index.html                # Main application template
-├── package.json              # Project metadata and dependencies
-├── vite.config.js            # Vite configuration with COOP/COEP headers
-├── server.py                 # Standalone local HTTP server with COOP/COEP
-├── start-remove-back.bat     # One-click dev launcher
-├── start-production.bat      # One-click production preview launcher
-├── start-standalone.bat      # One-click standalone Python server launcher
-└── REVERSE_ENGINEERING_REPORT.md # Technical reverse-engineering analysis
-```
-
----
-
 ## 🛠️ Technology Stack
 
 - **Inference Runtime**: `@imgly/background-removal` via ONNX Runtime Web
-- **Acceleration**: WebAssembly SIMD + WebGPU multithreading
-- **Bundler & Dev Server**: Vite 6 / Rollup
+- **Acceleration**: WebAssembly SIMD + WebGPU multithreading. 
 - **UI Architecture**: Vanilla ES Modules with zero heavy UI framework overhead
 - **Color Space & Matting**: HTML5 Canvas 2D Context, Guided Filter, Active Contour BFS
 
----
-
-## 📜 License & Acknowledgments
-
-- Reverse engineered from `remove.bg` (Kaleido AI / Canva).
-- AI Model: ISNet Salient Object Detection (SOD) licensed under Apache-2.0.
-- Released for educational, creator, and productivity workflows.
+---.
