@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Remove-back — Minimal AI Background Remover</title>
+  <meta name="description" content="Instant, high-precision background removal running 100% locally in your browser. Fast, private, and free." />
+  <link rel="icon" type="image/svg+xml" href="./logo-icon.svg" />
+  <script src="./coi-serviceworker.js"></script>
+  <script type="module" crossorigin src="./assets/index-DdFL7IDN.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-Ml2-bIxX.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <div class="container nav-container">
+      <a href="#" class="brand-link" aria-label="Remove-back Home">
+        <svg class="brand-logo-svg" viewBox="0 0 236 48" fill="none" height="36" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="rbGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#2563EB"/>
+              <stop offset="100%" stop-color="#4F46E5"/>
+            </linearGradient>
+            <linearGradient id="rbCutoutGradNav" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="#3B82F6"/>
+              <stop offset="100%" stop-color="#1D4ED8"/>
+            </linearGradient>
+            <pattern id="logoCheckersNav" width="8" height="8" patternUnits="userSpaceOnUse">
+              <rect width="4" height="4" class="logo-checker-a"/>
+              <rect x="4" width="4" height="4" class="logo-checker-b"/>
+              <rect y="4" width="4" height="4" class="logo-checker-b"/>
+              <rect x="4" y="4" width="4" height="4" class="logo-checker-a"/>
+            </pattern>
+          </defs>
+          <!-- ICON CONTAINER -->
+          <g transform="translate(4, 4)">
+            <rect x="0" y="0" width="40" height="40" rx="10" class="logo-card-base" stroke-width="1.5"/>
+            <rect x="2" y="2" width="36" height="36" rx="8" fill="url(#logoCheckersNav)"/>
+            <g>
+              <rect x="12" y="8" width="26" height="30" rx="7" fill="url(#rbCutoutGradNav)"/>
+              <circle cx="25" cy="18" r="4" fill="#FFFFFF"/>
+              <path d="M17 32 C17 26.5, 20.5 24.5, 25 24.5 C29.5 24.5, 33 26.5, 33 32 Z" fill="#FFFFFF"/>
+            </g>
+            <path d="M4 14 C4 7 8 4 15 4" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M37 1 L38 4 L41 5 L38 6 L37 9 L36 6 L33 5 L36 4 Z" fill="#38BDF8"/>
+          </g>
+          <!-- WORDMARK -->
+          <g transform="translate(56, 33)">
+            <text font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" letter-spacing="-0.03em" class="logo-text">Remove</text>
+            <g transform="translate(90, -22)">
+              <rect width="78" height="26" rx="13" fill="url(#rbGradNav)"/>
+              <text x="39" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.01em">-back</text>
+            </g>
+          </g>
+        </svg>
+      </a>
+
+      <ul class="nav-links">
+        <li><a href="#how-it-works" class="nav-link">How it Works</a></li>
+        <li><a href="#features" class="nav-link">Features</a></li>
+        <li><a href="#faq" class="nav-link">FAQ</a></li>
+      </ul>
+
+      <div class="nav-actions">
+        <!-- THEME TOGGLE BUTTON (Light <-> Dark) -->
+        <button class="btn-theme-toggle" id="themeToggleBtn" type="button" aria-label="Toggle theme" title="Toggle dark / light theme">
+          <svg class="theme-icon sun-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="theme-icon moon-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+
+        <button class="btn-primary btn-nav" id="navUploadBtn" type="button">Upload Image</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main>
+    <!-- HERO SECTION -->
+    <header class="hero-section">
+      <div class="container hero-grid">
+        
+        <!-- HERO LEFT: VALUE PROP & DEMO -->
+        <div class="hero-content">
+          <div class="tag-pill">
+            <span class="tag-dot"></span>
+            <span>Client-Side Neural AI</span>
+          </div>
+
+          <h1 class="hero-title">Remove Image Background</h1>
+          <p class="hero-subtitle">
+            100% automatic, high precision, and completely private in your browser.
+          </p>
+
+          <!-- HERO DEMO CARD -->
+          <div class="hero-demo-card">
+            <div class="hero-demo-wrapper" id="heroDemoWrapper">
+              <img src="./samples/portrait.jpg" alt="Original Portrait" class="hero-demo-img" />
+              <div class="hero-demo-after" id="heroDemoAfter">
+                <img src="./samples/portrait.jpg" alt="Cutout Portrait" />
+              </div>
+              <div class="hero-demo-badge">Interactive Split</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HERO RIGHT: UPLOAD BOX -->
+        <div class="hero-upload">
+          <div class="upload-card" id="uploadCard">
+            <div class="dropzone" id="dropzone">
+              <button class="btn-primary btn-upload-hero" id="uploadBtn" type="button">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="17 8 12 3 7 8"></polyline>
+                  <line x1="12" y1="3" x2="12" y2="15"></line>
+                </svg>
+                Upload Image
+              </button>
+              <p class="dropzone-hint">or drop a file here, or paste <kbd>Ctrl + V</kbd></p>
+              <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" style="display: none;" />
+
+              <!-- INTERACTIVE QUICK SAMPLES -->
+              <div class="samples-wrapper">
+                <span class="samples-label">No image? Try one of these:</span>
+                <div class="samples-grid">
+                  <button class="sample-chip" data-sample="./samples/portrait.jpg" data-name="Portrait" type="button" title="Test with person portrait">
+                    <img src="./samples/portrait.jpg" class="sample-thumb" alt="Person" />
+                    <span>Person</span>
+                  </button>
+                  <button class="sample-chip" data-sample="./samples/product.jpg" data-name="Product" type="button" title="Test with product shot">
+                    <img src="./samples/product.jpg" class="sample-thumb" alt="Product" />
+                    <span>Product</span>
+                  </button>
+                  <button class="sample-chip" data-sample="./samples/animal.jpg" data-name="Pet" type="button" title="Test with animal fur">
+                    <img src="./samples/animal.jpg" class="sample-thumb" alt="Animal" />
+                    <span>Animal</span>
+                  </button>
+                  <button class="sample-chip" data-sample="./samples/car.jpg" data-name="Car" type="button" title="Test with vehicle">
+                    <img src="./samples/car.jpg" class="sample-thumb" alt="Car" />
+                    <span>Car</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- PROCESSING OVERLAY -->
+            <div class="processing-overlay" id="processingOverlay">
+              <div class="processing-spinner"></div>
+              <div class="processing-text-group">
+                <h3 class="processing-title" id="processingStatusText">Analyzing Image...</h3>
+                <p class="processing-subtitle" id="processingDetailText">Initializing local neural model...</p>
+              </div>
+              <div class="progress-bar-container">
+                <div class="progress-bar-fill" id="progressBarFill"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- ====================================================
+         WORKSPACE & STUDIO SECTION (Shown when image loaded)
+         ==================================================== -->
+    <section class="workspace-section" id="workspaceSection">
+      <div class="container">
+        <div class="workspace-card">
+          
+          <!-- WORKSPACE TOOLBAR: METADATA, UNDO/REDO & ACTIONS -->
+          <div class="workspace-header">
+            <div class="workspace-meta">
+              <span class="image-title" id="currentFileName">image.jpg</span>
+              <span class="image-specs" id="currentImageSpecs">1200 × 800 px</span>
+            </div>
+
+            <!-- UNDO / REDO CONTROLS (Ctrl+Z, Ctrl+Y) -->
+            <div class="history-controls">
+              <button class="btn-history" id="btnUndo" type="button" title="Undo (Ctrl + Z)" disabled aria-label="Undo edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 7v6h6"></path>
+                  <path d="M21 17a9 9 0 0 0-9-9 9 9 0 0 0-6 2.3L3 13"></path>
+                </svg>
+                <span>Undo</span>
+                <kbd class="kbd-hint">Ctrl+Z</kbd>
+              </button>
+
+              <button class="btn-history" id="btnRedo" type="button" title="Redo (Ctrl + Y)" disabled aria-label="Redo edit">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 7v6h-6"></path>
+                  <path d="M3 17a9 9 0 0 1 9-9 9 9 0 0 1 6 2.3L21 13"></path>
+                </svg>
+                <span>Redo</span>
+                <kbd class="kbd-hint">Ctrl+Y</kbd>
+              </button>
+            </div>
+
+            <button class="btn-secondary" id="btnUploadAnother" type="button">
+              + Upload Another
+            </button>
+          </div>
+
+          <!-- CANVAS STAGE -->
+          <div class="stage-container">
+            <div class="stage-canvas-box checkered-pattern" id="stageCanvasBox">
+              
+              <!-- COMPARISON SLIDER CONTAINER -->
+              <div class="comparison-container" id="comparisonContainer">
+                <div class="comparison-bg-layer" id="bgLayer">
+                  <canvas id="resultCanvas"></canvas>
+                </div>
+                <div class="comparison-fg-layer" id="fgLayer">
+                  <canvas id="originalCanvas"></canvas>
+                </div>
+                <div class="slider-handle" id="sliderHandle">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                  </svg>
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                  </svg>
+                </div>
+                <span class="slider-pill-label label-original">Original</span>
+                <span class="slider-pill-label label-removed">Removed</span>
+              </div>
+
+            </div>
+
+            <!-- VIEW MODE TABS -->
+            <div class="view-tabs">
+              <button class="view-tab-btn active" data-view="split" type="button">Comparison Split</button>
+              <button class="view-tab-btn" data-view="result" type="button">Cutout Only</button>
+              <button class="view-tab-btn" data-view="original" type="button">Original Only</button>
+            </div>
+          </div>
+
+          <!-- STUDIO CONTROLS & PALETTE -->
+          <div class="editor-panel">
+            <div class="editor-tabs">
+              <button class="editor-tab-item active" data-tab="tab-bg" type="button">Background</button>
+              <button class="editor-tab-item" data-tab="tab-brush" type="button">Magic Brush</button>
+              <button class="editor-tab-item" data-tab="tab-ai-select" type="button">AI Smart Select</button>
+            </div>
+
+            <!-- TAB 1: BACKGROUND OPTIONS -->
+            <div class="tab-pane active" id="tab-bg">
+              <!-- SOLID COLORS -->
+              <div class="editor-group">
+                <span class="group-label">Color & Transparency</span>
+                <div class="color-swatches">
+                  <button class="swatch transparent active" title="Transparent" data-color="transparent" type="button"></button>
+                  <button class="swatch" style="background-color: #ffffff; border: 1px solid var(--border-light);" title="White" data-color="#ffffff" type="button"></button>
+                  <button class="swatch" style="background-color: #f1f5f9;" title="Light Grey" data-color="#f1f5f9" type="button"></button>
+                  <button class="swatch" style="background-color: #0f172a;" title="Slate Black" data-color="#0f172a" type="button"></button>
+                  <button class="swatch" style="background-color: #2563eb;" title="Primary Blue" data-color="#2563eb" type="button"></button>
+                  <button class="swatch" style="background-color: #06b6d4;" title="Cyan" data-color="#06b6d4" type="button"></button>
+                  <button class="swatch" style="background-color: #10b981;" title="Emerald" data-color="#10b981" type="button"></button>
+                  <button class="swatch" style="background-color: #f59e0b;" title="Amber" data-color="#f59e0b" type="button"></button>
+                  <button class="swatch" style="background-color: #ef4444;" title="Red" data-color="#ef4444" type="button"></button>
+                  <button class="swatch" style="background-color: #8b5cf6;" title="Purple" data-color="#8b5cf6" type="button"></button>
+                  <label class="custom-color-label" title="Custom Color Picker">
+                    <input type="color" id="customColorPicker" class="custom-color-input" value="#ffffff" />
+                  </label>
+                </div>
+              </div>
+
+              <!-- PHOTO PRESETS -->
+              <div class="editor-group">
+                <span class="group-label">Scene Backdrops & Custom Image</span>
+                <div class="photo-presets">
+                  <button class="photo-card" data-bg="./backgrounds/studio.jpg" type="button">
+                    <img src="./backgrounds/studio.jpg" alt="Studio" />
+                    <span class="photo-card-label">Studio</span>
+                  </button>
+                  <button class="photo-card" data-bg="./backgrounds/office.jpg" type="button">
+                    <img src="./backgrounds/office.jpg" alt="Office" />
+                    <span class="photo-card-label">Office</span>
+                  </button>
+                  <button class="photo-card" data-bg="./backgrounds/nature.jpg" type="button">
+                    <img src="./backgrounds/nature.jpg" alt="Nature" />
+                    <span class="photo-card-label">Nature</span>
+                  </button>
+                  <button class="photo-card" data-bg="./backgrounds/sunset.jpg" type="button">
+                    <img src="./backgrounds/sunset.jpg" alt="Sunset" />
+                    <span class="photo-card-label">Sunset</span>
+                  </button>
+                  <button class="photo-card" data-bg="./backgrounds/cyberpunk.jpg" type="button">
+                    <img src="./backgrounds/cyberpunk.jpg" alt="Cyberpunk" />
+                    <span class="photo-card-label">Neon</span>
+                  </button>
+                  <button class="photo-card" data-bg="./backgrounds/luxury.jpg" type="button">
+                    <img src="./backgrounds/luxury.jpg" alt="Interior" />
+                    <span class="photo-card-label">Interior</span>
+                  </button>
+                  <!-- UPLOAD CUSTOM BG -->
+                  <button class="btn-custom-bg" id="btnUploadBg" type="button">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                      <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                      <polyline points="21 15 16 10 5 21"></polyline>
+                    </svg>
+                    <span>Upload BG</span>
+                    <input type="file" id="bgFileInput" accept="image/*" style="display:none;" />
+                  </button>
+                </div>
+              </div>
+
+              <!-- BLUR SLIDER -->
+              <div class="editor-group">
+                <div class="slider-header">
+                  <span class="group-label">Background Blur</span>
+                  <span class="slider-val" id="blurValueLabel">0px</span>
+                </div>
+                <input type="range" id="blurSlider" class="range-slider" min="0" max="25" value="0" />
+              </div>
+            </div>
+
+            <!-- TAB 2: MAGIC BRUSH -->
+            <div class="tab-pane" id="tab-brush">
+              <div class="brush-toolbar">
+                <div class="btn-group">
+                  <button class="btn-toggle active" id="btnEraseMode" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M20 20H7L3 16C2 15 2 13 3 12L13 2L22 11L14 19"></path>
+                    </svg>
+                    Erase
+                  </button>
+                  <button class="btn-toggle" id="btnRestoreMode" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <path d="M12 20h9"></path>
+                      <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"></path>
+                    </svg>
+                    Restore
+                  </button>
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-header">
+                    <span class="group-label">Brush Size</span>
+                    <span class="slider-val" id="brushSizeLabel">25px</span>
+                  </div>
+                  <input type="range" id="brushSizeSlider" class="range-slider" min="5" max="80" value="25" />
+                </div>
+
+                <button class="btn-secondary" id="btnResetEdits" type="button">Reset to Cutout</button>
+              </div>
+              <p class="tab-hint">Drag across the canvas to manually touch up edges or restore masked details.</p>
+            </div>
+
+            <!-- TAB 3: AI QUICK SELECTION & EDGE REFINE -->
+            <div class="tab-pane" id="tab-ai-select">
+              <div class="brush-toolbar">
+                <div class="btn-group">
+                  <button class="btn-toggle active" id="btnWandAdd" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="12" y1="5" x2="12" y2="19"></line>
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Smart Select (+)
+                  </button>
+                  <button class="btn-toggle" id="btnWandSub" type="button">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                      <line x1="5" y1="12" x2="19" y2="12"></line>
+                    </svg>
+                    Smart Remove (-)
+                  </button>
+                </div>
+
+                <div class="slider-group">
+                  <div class="slider-header">
+                    <span class="group-label">Tolerance</span>
+                    <span class="slider-val" id="wandTolLabel">30%</span>
+                  </div>
+                  <input type="range" id="wandTolSlider" class="range-slider" min="5" max="65" value="30" />
+                </div>
+
+                <button class="btn-secondary btn-accent-action" id="btnRefineHairEdges" type="button">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+                  </svg>
+                  Refine Hair & Edges
+                </button>
+              </div>
+              <p class="tab-hint">Click on the image to snap-select object contours automatically, or click Refine Hair to smooth edge transitions.</p>
+            </div>
+          </div>
+
+          <!-- ACTION FOOTER: EXPORTS -->
+          <div class="workspace-actions">
+            <div class="action-left">
+              <button class="btn-secondary" id="btnCopyClipboard" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                </svg>
+                Copy Image
+              </button>
+            </div>
+            <div class="action-right">
+              <button class="btn-secondary" id="btnDownloadJpg" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download JPG
+              </button>
+              <button class="btn-primary" id="btnDownloadPng" type="button">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+                Download HD (PNG)
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         HOW IT WORKS (Simple 3 Steps)
+         ==================================================== -->
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">How it works</h2>
+          <p class="section-subtitle">Three simple steps to clean, high-resolution cutouts.</p>
+        </div>
+
+        <div class="steps-grid">
+          <div class="step-card">
+            <div class="step-num">1</div>
+            <h3 class="step-title">Upload Image</h3>
+            <p class="step-desc">Drag and drop, browse, or paste directly with Ctrl + V. Supports JPG, PNG, and WebP.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">2</div>
+            <h3 class="step-title">AI Separation</h3>
+            <p class="step-desc">Local neural network segments subjects and creates a precise transparent alpha mask.</p>
+          </div>
+          <div class="step-card">
+            <div class="step-num">3</div>
+            <h3 class="step-title">Download & Edit</h3>
+            <p class="step-desc">Export immediately in HD PNG or add studio backdrops and custom solid colors.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         FEATURES (Clean 3 Cards)
+         ==================================================== -->
+    <section class="section section-subtle" id="features">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Engineered for precision & privacy</h2>
+          <p class="section-subtitle">Fast client-side processing with professional quality.</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+              </svg>
+            </div>
+            <h3 class="feature-title">Pixel-Perfect Edges</h3>
+            <p class="feature-desc">Accurately preserves wispy hair, thin eyeglass frames, and subtle silhouettes with sub-pixel alpha matting.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
+            <h3 class="feature-title">100% Client Privacy</h3>
+            <p class="feature-desc">Your images never leave your computer. Computation runs locally inside your browser via WebAssembly & WebGPU.</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+            </div>
+            <h3 class="feature-title">Native HD Quality</h3>
+            <p class="feature-desc">Zero artificial downscaling. Export your cutouts in the full original resolution for free without watermarks.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================
+         FAQ ACCORDION
+         ==================================================== -->
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">Frequently Asked Questions</h2>
+          <p class="section-subtitle">Quick answers about Remove-back.</p>
+        </div>
+
+        <div class="faq-list">
+          <div class="faq-item open">
+            <button class="faq-question" type="button">
+              <span>How does Remove-back remove backgrounds automatically?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer">
+              Remove-back runs a deep learning Salient Object Detection (SOD) neural network compiled directly to WebAssembly and WebGPU inside your browser. It automatically detects subjects and separates them with sub-pixel feathering.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Are my photos uploaded to any external server?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer">
+              No. All processing happens entirely inside your browser on your computer hardware. Your original images and cutouts are never uploaded or stored anywhere.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>Is there a resolution limit or watermark?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer">
+              No. Remove-back exports images in their full native resolution with lossless PNG transparency or high-quality JPG composites, completely free and watermark-free.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button">
+              <span>How do Undo and Redo work?</span>
+              <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </button>
+            <div class="faq-answer">
+              You can click the Undo and Redo buttons in the workspace header, or use standard keyboard shortcuts: <code>Ctrl + Z</code> to undo any brush stroke, AI wand touchup, or background change, and <code>Ctrl + Y</code> to redo.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ====================================================
+       FOOTER
+       ==================================================== -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <a href="#" class="brand-link" aria-label="Remove-back Home">
+          <svg class="brand-logo-svg footer-logo-svg" viewBox="0 0 236 48" fill="none" height="28" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <linearGradient id="rbGradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#2563EB"/>
+                <stop offset="100%" stop-color="#4F46E5"/>
+              </linearGradient>
+              <linearGradient id="rbCutoutGradFooter" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#3B82F6"/>
+                <stop offset="100%" stop-color="#1D4ED8"/>
+              </linearGradient>
+              <pattern id="logoCheckersFooter" width="8" height="8" patternUnits="userSpaceOnUse">
+                <rect width="4" height="4" class="logo-checker-a"/>
+                <rect x="4" width="4" height="4" class="logo-checker-b"/>
+                <rect y="4" width="4" height="4" class="logo-checker-b"/>
+                <rect x="4" y="4" width="4" height="4" class="logo-checker-a"/>
+              </pattern>
+            </defs>
+            <!-- ICON CONTAINER -->
+            <g transform="translate(4, 4)">
+              <rect x="0" y="0" width="40" height="40" rx="10" class="logo-card-base" stroke-width="1.5"/>
+              <rect x="2" y="2" width="36" height="36" rx="8" fill="url(#logoCheckersFooter)"/>
+              <g>
+                <rect x="12" y="8" width="26" height="30" rx="7" fill="url(#rbCutoutGradFooter)"/>
+                <circle cx="25" cy="18" r="4" fill="#FFFFFF"/>
+                <path d="M17 32 C17 26.5, 20.5 24.5, 25 24.5 C29.5 24.5, 33 26.5, 33 32 Z" fill="#FFFFFF"/>
+              </g>
+              <path d="M4 14 C4 7 8 4 15 4" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
+              <path d="M37 1 L38 4 L41 5 L38 6 L37 9 L36 6 L33 5 L36 4 Z" fill="#38BDF8"/>
+            </g>
+            <!-- WORDMARK -->
+            <g transform="translate(56, 33)">
+              <text font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="700" letter-spacing="-0.03em" class="logo-text">Remove</text>
+              <g transform="translate(90, -22)">
+                <rect width="78" height="26" rx="13" fill="url(#rbGradFooter)"/>
+                <text x="39" y="18" font-family="-apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', Roboto, sans-serif" font-size="15" font-weight="700" fill="#FFFFFF" text-anchor="middle" letter-spacing="-0.01em">-back</text>
+              </g>
+            </g>
+          </svg>
+        </a>
+        <p class="footer-tagline">Clean, private, in-browser AI background removal.</p>
+      </div>
+      <div class="footer-right">
+        <span class="footer-copy">© 2026 Remove-back. All rights reserved.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- TOAST NOTIFICATION -->
+  <div class="toast" id="toast" role="status" aria-live="polite">Notification</div>
+
+  <!-- SCRIPT -->
+</body>
+</html>
