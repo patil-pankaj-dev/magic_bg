@@ -11,12 +11,13 @@
       }
     </style>
 
-    <linearGradient id="iconCutoutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#3B82F6"/>
-      <stop offset="100%" stop-color="#1D4ED8"/>
+    <linearGradient id="magicCutoutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"/>
+      <stop offset="50%" stop-color="#7C3AED"/>
+      <stop offset="100%" stop-color="#2563EB"/>
     </linearGradient>
 
-    <pattern id="iconCheckers" width="8" height="8" patternUnits="userSpaceOnUse">
+    <pattern id="magicIconCheckers" width="8" height="8" patternUnits="userSpaceOnUse">
       <rect width="4" height="4" class="logo-checker-a"/>
       <rect x="4" width="4" height="4" class="logo-checker-b"/>
       <rect y="4" width="4" height="4" class="logo-checker-b"/>
@@ -26,20 +27,22 @@
 
   <!-- Base Canvas / Checkerboard Background -->
   <rect x="4" y="4" width="40" height="40" rx="10" class="logo-card-base" stroke-width="1.5"/>
-  <rect x="6" y="6" width="36" height="36" rx="8" fill="url(#iconCheckers)"/>
+  <rect x="6" y="6" width="36" height="36" rx="8" fill="url(#magicIconCheckers)"/>
 
   <!-- Cutout Subject Floating Layer -->
   <g>
-    <rect x="16" y="12" width="26" height="30" rx="7" fill="url(#iconCutoutGrad)"/>
+    <rect x="16" y="12" width="26" height="30" rx="7" fill="url(#magicCutoutGrad)"/>
     <!-- Head -->
     <circle cx="29" cy="22" r="4" fill="#FFFFFF"/>
     <!-- Torso / Shoulders -->
     <path d="M21 36 C21 30.5, 24.5 28.5, 29 28.5 C33.5 28.5, 37 30.5, 37 36 Z" fill="#FFFFFF"/>
   </g>
 
-  <!-- Magic Cut / Aperture Ring Arc -->
+  <!-- Magic Aura Arc -->
   <path d="M8 18 C8 11 12 8 19 8" stroke="#38BDF8" stroke-width="2.5" stroke-linecap="round"/>
 
-  <!-- AI Precision Sparkle Star -->
-  <path d="M41 5 L42 8 L45 9 L42 10 L41 13 L40 10 L37 9 L40 8 Z" fill="#38BDF8"/>
+  <!-- Primary Magic Sparkle Star -->
+  <path d="M41 4 L42.2 7.8 L46 9 L42.2 10.2 L41 14 L39.8 10.2 L36 9 L39.8 7.8 Z" fill="#38BDF8"/>
+  <!-- Secondary Magic Sparkle -->
+  <path d="M12 36 L12.8 38.2 L15 39 L12.8 39.8 L12 42 L11.2 39.8 L9 39 L11.2 38.2 Z" fill="#F59E0B"/>
 </svg>

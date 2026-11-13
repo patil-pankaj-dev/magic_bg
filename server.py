@@ -24,7 +24,7 @@ if __name__ == "__main__":
     with socketserver.TCPServer(("", PORT), CustomHTTPRequestHandler) as httpd:
         url = f"http://localhost:{PORT}"
         print(f"========================================================")
-        print(f"  Remove-back v2 Local Server Running")
+        print(f"  Magic back Local Server Running")
         print(f"  Serving: {DIRECTORY}")
         print(f"  URL: {url}")
         print(f"  Cross-Origin Isolation (COOP/COEP) Active")

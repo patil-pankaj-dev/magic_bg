@@ -1,7 +1,7 @@
 {
-  "name": "remove-back",
+  "name": "magic-back",
   "version": "2.0.0",
-  "description": "Remove-back v2: Next-generation in-browser AI image background remover",
+  "description": "Magic back: Next-generation in-browser AI image background remover",
   "type": "module",
   "scripts": {
     "dev": "vite",

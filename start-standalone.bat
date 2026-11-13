@@ -1,5 +1,5 @@
 @echo off
-title Remove-back v2 Standalone Server
+title Magic back Standalone Server
 cd /d "%~dp0"
 python server.py
 pause

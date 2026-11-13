@@ -1,7 +1,7 @@
-# Remove-back 🚀
+# Magic back 🚀
 
 > **Next-Generation In-Browser AI Background Remover & Creative Studio**  
-> built to run 100% locally and free in your browser with zero cloud server costs, no rate limits, and total data privacy!
+> Built to run 100% locally and free in your browser with zero cloud server costs, no rate limits, and total data privacy!
 
 ## ✨ Features & Capabilities
 
@@ -50,8 +50,8 @@
 ## 🛠️ Technology Stack
 
 - **Inference Runtime**: `@imgly/background-removal` via ONNX Runtime Web
-- **Acceleration**: WebAssembly SIMD + WebGPU multithreading. 
+- **Acceleration**: WebAssembly SIMD + WebGPU multithreading
 - **UI Architecture**: Vanilla ES Modules with zero heavy UI framework overhead
 - **Color Space & Matting**: HTML5 Canvas 2D Context, Guided Filter, Active Contour BFS
 
----.
+---

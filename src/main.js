@@ -107,7 +107,7 @@ function showToast(message, duration = 2400) {
 // THEME SWITCHER (Light <-> Dark)
 // ====================================================
 function initTheme() {
-  const saved = localStorage.getItem('remove_back_theme');
+  const saved = localStorage.getItem('magic_back_theme') || localStorage.getItem('remove_back_theme');
   if (saved === 'dark' || saved === 'light') {
     setTheme(saved, false);
   } else {
@@ -118,7 +118,7 @@ function initTheme() {
 
 function setTheme(theme, notify = true) {
   document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('remove_back_theme', theme);
+  localStorage.setItem('magic_back_theme', theme);
   if (notify) {
     showToast(theme === 'dark' ? 'Dark theme enabled' : 'Light theme enabled');
   }
@@ -1174,7 +1174,7 @@ btnDownloadPng.addEventListener('click', () => {
   if (!fullCanvas) return;
 
   const link = document.createElement('a');
-  link.download = `remove-back-${Date.now()}.png`;
+  link.download = `magic-back-${Date.now()}.png`;
   link.href = fullCanvas.toDataURL('image/png');
   link.click();
   showToast('Downloaded HD PNG');
@@ -1185,7 +1185,7 @@ btnDownloadJpg.addEventListener('click', () => {
   if (!fullCanvas) return;
 
   const link = document.createElement('a');
-  link.download = `remove-back-${Date.now()}.jpg`;
+  link.download = `magic-back-${Date.now()}.jpg`;
   link.href = fullCanvas.toDataURL('image/jpeg', 1.0);
   link.click();
   showToast('Downloaded HD JPG');
@@ -1211,4 +1211,4 @@ document.querySelectorAll('.faq-question').forEach(q => {
   });
 });
 
-console.log('Remove-back minimal application ready.');
+console.log('Magic back AI application ready.');
