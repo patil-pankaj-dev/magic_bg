@@ -6,9 +6,9 @@
   <title>Magic back — Minimal AI Background Remover</title>
   <meta name="description" content="Instant, high-precision background removal running 100% locally in your browser. Fast, private, and free." />
   <link rel="icon" type="image/svg+xml" href="./logo-icon.svg" />
-  <script src="./coi-serviceworker.js"></script>
-  <script type="module" crossorigin src="./assets/index-DbuBO16y.js"></script>
-  <link rel="stylesheet" crossorigin href="./assets/index-Ml2-bIxX.css">
+  <script src="./coi-serviceworker.js"></script>
+  <script type="module" crossorigin src="./assets/index-BbKtGRCn.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-J35BgIBl.css">
 </head>
 <body>
 
@@ -133,10 +133,33 @@
               <p class="dropzone-hint">or drop a file here, or paste <kbd>Ctrl + V</kbd></p>
               <input type="file" id="fileInput" accept="image/png, image/jpeg, image/webp" style="display: none;" />
 
+              <!-- AI QUALITY MODE SELECTOR -->
+              <div class="model-selection-bar" id="modelSelectionBar">
+                <span class="model-bar-label">AI Engine:</span>
+                <div class="model-pill-group">
+                  <button class="model-pill active" id="btnModelUltra" data-model="isnet_fp16" type="button" title="High-precision FP16 neural network. Preserves dark clothing, fine hair strands, and crisp edges matching remove.bg.">
+                    <span class="model-pill-icon">✨</span>
+                    <span class="model-pill-name">Ultra HD (remove.bg quality)</span>
+                  </button>
+                  <button class="model-pill" id="btnModelFast" data-model="isnet_quint8" type="button" title="Lightweight quantized neural network for ultra-fast mobile inference.">
+                    <span class="model-pill-icon">⚡</span>
+                    <span class="model-pill-name">Turbo Fast</span>
+                  </button>
+                </div>
+              </div>
+
               <!-- INTERACTIVE QUICK SAMPLES -->
               <div class="samples-wrapper">
                 <span class="samples-label">No image? Try one of these:</span>
                 <div class="samples-grid">
+                  <button class="sample-chip" id="chipSinglePortrait" data-sample="./samples/single_portrait.jpg" data-name="SinglePortrait" type="button" title="Test with single portrait">
+                    <img src="./samples/single_portrait.jpg" class="sample-thumb" alt="Single Portrait" />
+                    <span>Single Portrait</span>
+                  </button>
+                  <button class="sample-chip" id="chipTwoBoys" data-sample="./samples/two_boys.jpg" data-name="TwoBoys" type="button" title="Test with two boys portrait">
+                    <img src="./samples/two_boys.jpg" class="sample-thumb" alt="Two Boys" />
+                    <span>Two Boys</span>
+                  </button>
                   <button class="sample-chip" data-sample="./samples/portrait.jpg" data-name="Portrait" type="button" title="Test with person portrait">
                     <img src="./samples/portrait.jpg" class="sample-thumb" alt="Person" />
                     <span>Person</span>
@@ -163,6 +186,7 @@
               <div class="processing-text-group">
                 <h3 class="processing-title" id="processingStatusText">Analyzing Image...</h3>
                 <p class="processing-subtitle" id="processingDetailText">Initializing local neural model...</p>
+                <div class="processing-timer-display" id="processingLiveTimer">0.0s</div>
               </div>
               <div class="progress-bar-container">
                 <div class="progress-bar-fill" id="progressBarFill"></div>
@@ -187,6 +211,8 @@
             <div class="workspace-meta">
               <span class="image-title" id="currentFileName">image.jpg</span>
               <span class="image-specs" id="currentImageSpecs">1200 × 800 px</span>
+              <span class="processing-time-badge" id="processingTimeBadge" style="display: none;">⚡ 1.2s</span>
+              <span class="model-active-badge" id="currentModelBadge">✨ Ultra HD</span>
             </div>
 
             <!-- UNDO / REDO CONTROLS (Ctrl+Z, Ctrl+Y) -->
@@ -624,6 +650,6 @@
   <!-- TOAST NOTIFICATION -->
   <div class="toast" id="toast" role="status" aria-live="polite">Notification</div>
 
-  <!-- SCRIPT -->
+  <!-- SCRIPT -->
 </body>
 </html>

@@ -408,6 +408,59 @@ kbd {
   color: var(--text-muted);
 }
 
+/* AI MODEL SELECTION BAR */
+.model-selection-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+.model-bar-label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.model-pill-group {
+  display: inline-flex;
+  background: var(--bg-card);
+  padding: 3px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-light);
+  gap: 3px;
+  box-shadow: var(--shadow-sm);
+}
+.model-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+.model-pill:hover {
+  color: var(--text-main);
+}
+.model-pill.active {
+  background: var(--primary);
+  color: var(--primary-text);
+  font-weight: 600;
+  box-shadow: 0 1px 3px rgba(79, 70, 229, 0.35);
+}
+.model-pill-icon {
+  font-size: 0.85rem;
+}
+
 /* INTERACTIVE SAMPLE CHIPS */
 .samples-wrapper {
   display: flex;
@@ -492,6 +545,16 @@ kbd {
   color: var(--text-muted);
   margin-top: 4px;
 }
+.processing-timer-display {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-subtle);
+  padding: 2px 10px;
+  border-radius: var(--radius-full);
+}
 .progress-bar-container {
   width: 100%;
   max-width: 280px;
@@ -548,6 +611,27 @@ kbd {
   font-size: 0.8rem;
   color: var(--text-muted);
   background: var(--bg-subtle);
+  border: 1px solid var(--border-light);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+}
+.processing-time-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #10B981;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.25);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+.model-active-badge {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-subtle);
   border: 1px solid var(--border-light);
   padding: 2px 8px;
   border-radius: var(--radius-sm);
